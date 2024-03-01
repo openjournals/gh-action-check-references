@@ -4,6 +4,7 @@ require_relative "lib/doi_checker"
 issue_id = ENV["ISSUE_ID"]
 
 paper = PaperFile.find(".")
+system("echo 'PAPER FOUND: #{paper.paper_path}'")
 entries = paper.bibtex_entries unless paper.bibtex_error
 
 if paper.bibtex_error
