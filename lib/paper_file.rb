@@ -1,5 +1,6 @@
 require "bibtex"
 require "find"
+require "yaml"
 
 class PaperFile
   attr_accessor :paper_path
