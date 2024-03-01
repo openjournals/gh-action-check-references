@@ -1,6 +1,6 @@
-require 'bibtex'
-require 'faraday'
-require 'serrano'
+require "bibtex"
+require "faraday"
+require "serrano"
 
 class DOIChecker
 

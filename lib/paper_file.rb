@@ -1,4 +1,5 @@
-require 'bibtex'
+require "bibtex"
+require "find"
 
 class PaperFile
   attr_accessor :paper_path
