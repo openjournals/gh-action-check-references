@@ -18,7 +18,7 @@ else
 
   doi_pretty_list=""
   doi_summary.each do |type, messages|
-    doi_pretty_list += "#{type.to_s.upcase} DOIs\n\n"
+    doi_pretty_list += "\n#{type.to_s.upcase} DOIs\n\n"
     if messages.empty?
       doi_pretty_list += "- None\n"
     else
@@ -31,7 +31,6 @@ else
   bibtex_entries_info = <<~BIBTEXENTRIESINFO
     ```
     Reference check summary (note 'MISSING' DOIs are suggestions that need verification):
-
     #{doi_pretty_list}
     ```
   BIBTEXENTRIESINFO
