@@ -34,7 +34,7 @@ env:
   GITHUB_TOKEN: ${{ secrets.BOT_USER_TOKEN }}
   GH_REPO: myorg/reviews
 jobs:
-  run-analysis:
+  doi-validation:
     runs-on: ubuntu-latest
     steps:
       - name: DOI validation
