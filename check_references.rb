@@ -18,7 +18,14 @@ else
 
   doi_pretty_list=""
   doi_summary.each do |type, messages|
-    doi_pretty_list += "\n#{type.to_s.upcase} DOIs\n\n"
+    if type.to_s === "ok"
+      doi_pretty_list += "\n✅ #{type.to_s.upcase} DOIs\n\n"
+    elsif type.to_s === "skip"
+      doi_pretty_list += "\n🟡 #{type.to_s.upcase} DOIs\n\n"
+    else
+      doi_pretty_list += "\n❌ #{type.to_s.upcase} DOIs\n\n"
+    end
+
     if messages.empty?
       doi_pretty_list += "- None\n"
     else
