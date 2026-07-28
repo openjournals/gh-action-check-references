@@ -6,6 +6,11 @@ class DOIChecker
 
   def initialize(entries=[])
     @entries = entries
+
+    # Use Crossref's "polite" pool if a contact email is configured
+    # https://github.com/CrossRef/rest-api-doc#etiquette
+    mailto = ENV["CROSSREF_MAILTO"].to_s.strip
+    Serrano.configuration { |config| config.mailto = mailto } unless mailto.empty?
   end
 
   def check_dois
@@ -95,7 +100,11 @@ class DOIChecker
       end
     end
     nil
-  rescue Serrano::InternalServerError, Serrano::GatewayTimeout, Serrano::BadGateway, Serrano::ServiceUnavailable
+  rescue Serrano::Error, Faraday::Error, MultiJson::ParseError => e
+    log_crossref_error(title, e)
+    return "CROSSREF-ERROR"
+  rescue StandardError => e
+    log_crossref_error(title, e, unexpected: true)
     return "CROSSREF-ERROR"
   end
 
@@ -132,6 +141,12 @@ class DOIChecker
   end
 
   private
+
+  def log_crossref_error(title, error, unexpected: false)
+    label = unexpected ? "Unexpected error" : "Crossref API error"
+    message = error.message.to_s.gsub(/\s+/, " ").strip[0, 500]
+    warn "#{label} during Crossref lookup for \"#{title}\": #{error.class}: #{message}"
+  end
 
   def acm_105555_prefix(entry)
     if entry.has_field?('doi') && entry.doi.include?("10.5555/")
